@@ -1,7 +1,5 @@
 package co.com.gsdd.activemq;
 
-import javax.jms.JMSException;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -13,13 +11,14 @@ public class BasicConsumer {
     public BasicConsumer(AbstractBrokerConfig configuration, int timeBetweenMessages) {
         this.configuration = configuration;
         this.timeBetweenMessages = timeBetweenMessages;
+        this.configuration.connectToBroker();
     }
 
     public void receiveMessage() {
         try {
             configuration.getSession().createConsumer(configuration.getDestination())
                     .setMessageListener(new ProcessorMessage(timeBetweenMessages));
-        } catch (JMSException e) {
+        } catch (Exception e) {
             log.error("Error receiving consumer: {}", e.getMessage(), e);
         }
     }

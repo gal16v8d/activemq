@@ -7,7 +7,6 @@ import co.com.gsdd.activemq.BrokerPublishSubscribe;
 public class ExecuteSubscriber {
 
     public static void main(String[] args) {
-        new BasicConsumer(BrokerPublishSubscribe.getInstance(), ActiveMQConstants.TIME_BETWEEN_MESSAGES)
-                .receiveMessage();
+        new BasicConsumer(new BrokerPublishSubscribe(), ActiveMQConstants.TIME_BETWEEN_MESSAGES).receiveMessage();
     }
 }

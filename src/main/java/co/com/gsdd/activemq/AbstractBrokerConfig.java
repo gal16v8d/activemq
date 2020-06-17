@@ -14,20 +14,20 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public abstract class AbstractBrokerConfig {
 
-    private static final String BROKER_SERVER = "tcp://192.168.99.100:61616?jms.prefetchPolicy.queuePrefetch=1";
+    private static final String BROKER_SERVER_FMT = "%s:61616?jms.prefetchPolicy.queuePrefetch=1";
 
     private ActiveMQConnectionFactory connectionFactory;
     private Connection connection;
     private Session session;
     private Destination destination;
 
-    public AbstractBrokerConfig() {
+    public abstract DestinationType destinationType();
+
+    public void connectToBroker() {
         try {
-            connectionFactory = new ActiveMQConnectionFactory(BROKER_SERVER);
-            // Create a Connection
+            connectionFactory = initConnectionFactory();
             connection = connectionFactory.createConnection();
             connection.start();
-            // Create a Session
             session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
             defineDestination(destinationType());
         } catch (Exception e) {
@@ -35,33 +35,31 @@ public abstract class AbstractBrokerConfig {
         }
     }
 
-    public abstract DestinationType destinationType();
+    protected ActiveMQConnectionFactory initConnectionFactory() {
+        return new ActiveMQConnectionFactory(
+                String.format(BROKER_SERVER_FMT, DockerEnvLoader.getActiveMQBrokerServer()));
+    }
 
     // Create the destination (Topic or Queue)
-    public void defineDestination(DestinationType destinationType) throws JMSException {
-        switch (destinationType) {
-        case QUEUE:
+    private void defineDestination(DestinationType destinationType) throws JMSException {
+        if (DestinationType.QUEUE.equals(destinationType)) {
             destination = session.createQueue(DestinationType.QUEUE.getValue());
-            break;
-        case TOPIC:
+        } else if (DestinationType.TOPIC.equals(destinationType)) {
             destination = session.createTopic(DestinationType.TOPIC.getValue());
-            break;
-        default:
-            throw new IllegalArgumentException("DestinationType is not valid.");
         }
     }
 
     public void closeResources() {
-        if (session != null) {
+        if (getSession() != null) {
             try {
-                session.close();
+                getSession().close();
             } catch (JMSException e) {
                 log.error("Error closing session: {}", e.getMessage(), e);
             }
         }
-        if (connection != null) {
+        if (getConnection() != null) {
             try {
-                connection.close();
+                getConnection().close();
             } catch (JMSException e) {
                 log.error("Error closing connection: {}", e.getMessage(), e);
             }

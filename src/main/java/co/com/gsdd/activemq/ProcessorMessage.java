@@ -20,14 +20,16 @@ public class ProcessorMessage implements MessageListener {
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
                 String text = textMessage.getText();
-                log.info("Received: {}", text);
+                log.info("Received: '{}'", text);
             } else {
-                log.info("Received: {}", message);
+                log.info("Received: '{}'", message);
             }
-
             Thread.sleep(timeBetweenMessages);
             message.acknowledge();
-        } catch (JMSException | InterruptedException e) {
+        } catch (InterruptedException e) {
+            log.error("Error: {}", e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        } catch (JMSException e) {
             log.error("Error: {}", e.getMessage(), e);
         }
 
