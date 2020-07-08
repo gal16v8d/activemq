@@ -5,7 +5,7 @@
 
 	<groupId>co.com.gsdd</groupId>
 	<artifactId>activemq</artifactId>
-	<version>1.0.002</version>
+	<version>1.0.003</version>
 	<packaging>jar</packaging>
 
 	<organization>
@@ -51,6 +51,7 @@
 		<!-- test dependencies -->
 		<junit.version>5.6.2</junit.version>
 		<mockito.version>3.3.3</mockito.version>
+		<docker-config-util.version>1.0.001</docker-config-util.version>
 	</properties>
 
 	<dependencies>
@@ -109,6 +110,11 @@
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>co.com.gsdd</groupId>
+			<artifactId>docker-config-util</artifactId>
+			<version>${docker-config-util.version}</version>
 		</dependency>
 	</dependencies>
 

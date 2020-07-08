@@ -7,6 +7,7 @@ import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
+import co.com.gsdd.docker.config.util.DockerEnvLoader;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,8 +37,7 @@ public abstract class AbstractBrokerConfig {
     }
 
     protected ActiveMQConnectionFactory initConnectionFactory() {
-        return new ActiveMQConnectionFactory(
-                String.format(BROKER_SERVER_FMT, DockerEnvLoader.getActiveMQBrokerServer()));
+        return new ActiveMQConnectionFactory(String.format(BROKER_SERVER_FMT, DockerEnvLoader.getDockerServiceIp()));
     }
 
     // Create the destination (Topic or Queue)
