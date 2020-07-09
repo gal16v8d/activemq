@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public abstract class AbstractBrokerConfig {
 
-    private static final String BROKER_SERVER_FMT = "%s:61616?jms.prefetchPolicy.queuePrefetch=1";
+    private static final String BROKER_SERVER_FMT = "tcp://%s:61616?jms.prefetchPolicy.queuePrefetch=1";
 
     private ActiveMQConnectionFactory connectionFactory;
     private Connection connection;
