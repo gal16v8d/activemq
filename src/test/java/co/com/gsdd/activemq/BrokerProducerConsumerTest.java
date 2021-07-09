@@ -9,18 +9,18 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class BrokerProducerConsumerTest {
+class BrokerProducerConsumerTest {
 
     @Spy
     private BrokerProducerConsumer brokerProducerConsumer;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testDestinationType() {
+    void testDestinationType() {
         Assertions.assertEquals(DestinationType.QUEUE, brokerProducerConsumer.destinationType());
     }
 }

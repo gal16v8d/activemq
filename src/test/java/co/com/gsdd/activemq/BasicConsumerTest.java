@@ -13,21 +13,21 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class BasicConsumerTest {
+class BasicConsumerTest {
 
     private BasicConsumer basicConsumer;
     @Mock
     private BrokerProducerConsumer brokerProducerConsumer;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
         Mockito.doNothing().when(brokerProducerConsumer).connectToBroker();
         basicConsumer = Mockito.spy(new BasicConsumer(brokerProducerConsumer, 0));
     }
 
     @Test
-    public void testReceiveMessage(@Mock Session session, @Mock MessageConsumer consumer) throws JMSException {
+    void testReceiveMessage(@Mock Session session, @Mock MessageConsumer consumer) throws JMSException {
         Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
         Mockito.doReturn(consumer).when(session).createConsumer(Mockito.any());
         Mockito.doThrow(new JMSException("error")).when(consumer).setMessageListener(Mockito.any());

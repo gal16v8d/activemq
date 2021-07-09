@@ -15,7 +15,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class AbstractBrokerConfigTest {
+class AbstractBrokerConfigTest {
 
     public static class BrokerConfig extends AbstractBrokerConfig {
         @Override
@@ -28,12 +28,12 @@ public class AbstractBrokerConfigTest {
     private BrokerConfig config;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testConnectToBroker(@Mock ActiveMQConnectionFactory connectionFactory, @Mock Connection connection,
+    void testConnectToBroker(@Mock ActiveMQConnectionFactory connectionFactory, @Mock Connection connection,
             @Mock Session session) throws JMSException {
         mockBrokerConfigs(connectionFactory, connection, session);
         Mockito.doReturn(null).when(session).createQueue(Mockito.any());
@@ -42,7 +42,7 @@ public class AbstractBrokerConfigTest {
     }
 
     @Test
-    public void testConnectToBrokerTopic(@Mock ActiveMQConnectionFactory connectionFactory, @Mock Connection connection,
+    void testConnectToBrokerTopic(@Mock ActiveMQConnectionFactory connectionFactory, @Mock Connection connection,
             @Mock Session session) throws JMSException {
         Mockito.doReturn(DestinationType.TOPIC).when(config).destinationType();
         mockBrokerConfigs(connectionFactory, connection, session);
@@ -52,7 +52,7 @@ public class AbstractBrokerConfigTest {
     }
 
     @Test
-    public void testConnectToBrokerBadDestination(@Mock ActiveMQConnectionFactory connectionFactory,
+    void testConnectToBrokerBadDestination(@Mock ActiveMQConnectionFactory connectionFactory,
             @Mock Connection connection, @Mock Session session) throws JMSException {
         Mockito.doReturn(null).when(config).destinationType();
         mockBrokerConfigs(connectionFactory, connection, session);
@@ -70,7 +70,7 @@ public class AbstractBrokerConfigTest {
     }
 
     @Test
-    public void testCloseResources(@Mock Session session, @Mock Connection connection) throws JMSException {
+    void testCloseResources(@Mock Session session, @Mock Connection connection) throws JMSException {
         Mockito.doReturn(session).when(config).getSession();
         Mockito.doReturn(connection).when(config).getConnection();
         Mockito.doNothing().when(session).close();
@@ -81,7 +81,7 @@ public class AbstractBrokerConfigTest {
     }
 
     @Test
-    public void testCloseResourcesWithErrors(@Mock Session session, @Mock Connection connection) throws JMSException {
+    void testCloseResourcesWithErrors(@Mock Session session, @Mock Connection connection) throws JMSException {
         Mockito.doReturn(session).when(config).getSession();
         Mockito.doReturn(connection).when(config).getConnection();
         Mockito.doThrow(new JMSException("error")).when(session).close();
@@ -92,7 +92,7 @@ public class AbstractBrokerConfigTest {
     }
 
     @Test
-    public void testCloseResourcesNoSession(@Mock Connection connection) throws JMSException {
+    void testCloseResourcesNoSession(@Mock Connection connection) throws JMSException {
         Mockito.doReturn(connection).when(config).getConnection();
         Mockito.doNothing().when(connection).close();
         config.closeResources();
@@ -100,7 +100,7 @@ public class AbstractBrokerConfigTest {
     }
 
     @Test
-    public void testCloseResourcesNoConnection(@Mock Session session) throws JMSException {
+    void testCloseResourcesNoConnection(@Mock Session session) throws JMSException {
         Mockito.doReturn(session).when(config).getSession();
         Mockito.doNothing().when(session).close();
         config.closeResources();

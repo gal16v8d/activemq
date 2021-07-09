@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class BasicProducerTest {
+class BasicProducerTest {
 
     private BasicProducer basicProducer;
     @Mock
@@ -28,8 +28,8 @@ public class BasicProducerTest {
     private MessageProducer producer;
 
     @BeforeEach
-    public void setUp() throws JMSException {
-        MockitoAnnotations.initMocks(this);
+    void setUp() throws JMSException {
+        MockitoAnnotations.openMocks(this);
         Mockito.doNothing().when(brokerProducerConsumer).connectToBroker();
         Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
         Mockito.doReturn(producer).when(session).createProducer(Mockito.any());
@@ -38,13 +38,13 @@ public class BasicProducerTest {
     }
 
     @Test
-    public void testInit() throws JMSException {
+    void testInit() throws JMSException {
         Mockito.verify(producer).setDeliveryMode(DeliveryMode.PERSISTENT);
     }
 
     @ParameterizedTest
     @ValueSource(booleans = { true, false })
-    public void testSendMessage(boolean withException, @Mock TextMessage txtMsg) throws JMSException {
+    void testSendMessage(boolean withException, @Mock TextMessage txtMsg) throws JMSException {
         Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
         Mockito.doReturn(txtMsg).when(session).createTextMessage(Mockito.anyString());
         if (withException) {
