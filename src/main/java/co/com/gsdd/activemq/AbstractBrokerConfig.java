@@ -1,5 +1,7 @@
 package co.com.gsdd.activemq;
 
+import java.util.Arrays;
+
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -15,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public abstract class AbstractBrokerConfig {
 
+	private static final String TRUSTED_PACKAGES = "co.com.gsdd.activemq";
     private static final String BROKER_SERVER_FMT = "tcp://%s:61616?jms.prefetchPolicy.queuePrefetch=1";
 
     private ActiveMQConnectionFactory connectionFactory;
@@ -36,9 +39,12 @@ public abstract class AbstractBrokerConfig {
         }
     }
 
-    protected ActiveMQConnectionFactory initConnectionFactory() {
-        return new ActiveMQConnectionFactory(String.format(BROKER_SERVER_FMT, DockerEnvLoader.getDockerServiceIp()));
-    }
+	protected ActiveMQConnectionFactory initConnectionFactory() {
+		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(
+				String.format(BROKER_SERVER_FMT, DockerEnvLoader.getDockerServiceIp()));
+		factory.setTrustedPackages(Arrays.asList(TRUSTED_PACKAGES));
+		return factory;
+	}
 
     // Create the destination (Topic or Queue)
     private void defineDestination(DestinationType destinationType) throws JMSException {

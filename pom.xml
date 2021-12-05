@@ -8,10 +8,11 @@
 	<version>1.0.004</version>
 	<packaging>jar</packaging>
 
+	<name>activemq</name>
 	<organization>
 		<name>GSDD</name>
 	</organization>
-	<name>activemq</name>
+
 
 	<properties>
 		<project.encoding>UTF-8</project.encoding>
@@ -68,7 +69,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
