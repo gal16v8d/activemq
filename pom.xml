@@ -113,7 +113,7 @@
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>co.com.gsdd</groupId>
+			<groupId>com.gsdd</groupId>
 			<artifactId>docker-config-util</artifactId>
 			<version>${docker-config-util.version}</version>
 		</dependency>

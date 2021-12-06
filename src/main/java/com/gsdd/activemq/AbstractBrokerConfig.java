@@ -6,7 +6,7 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import co.com.gsdd.docker.config.util.DockerEnvLoader;
+import com.gsdd.docker.config.util.DockerEnvLoader;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
