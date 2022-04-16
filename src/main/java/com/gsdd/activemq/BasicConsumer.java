@@ -1,16 +1,16 @@
 package com.gsdd.activemq;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class BasicConsumer {
 
-  private AbstractBrokerConfig configuration;
-  private int timeBetweenMessages;
+  private final AbstractBrokerConfig configuration;
+  private final int timeBetweenMessages;
 
-  public BasicConsumer(AbstractBrokerConfig configuration, int timeBetweenMessages) {
-    this.configuration = configuration;
-    this.timeBetweenMessages = timeBetweenMessages;
+  public void postConstruct() {
     this.configuration.connectToBroker();
   }
 

@@ -34,6 +34,7 @@ class BasicProducerTest {
     Mockito.doReturn(producer).when(session).createProducer(Mockito.any());
     Mockito.doNothing().when(producer).setDeliveryMode(DeliveryMode.PERSISTENT);
     basicProducer = Mockito.spy(new BasicProducer(brokerProducerConsumer));
+    basicProducer.postConstruct();
   }
 
   @Test

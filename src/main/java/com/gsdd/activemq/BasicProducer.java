@@ -4,20 +4,21 @@ import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.TextMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 public class BasicProducer {
 
   private static final int PACKAGES_TO_SEND = 200;
-  private MessageProducer messageProducer;
   private final AbstractBrokerConfig configuration;
+  private MessageProducer messageProducer;
 
-  public BasicProducer(AbstractBrokerConfig configuration) {
-    this.configuration = configuration;
+  public void postConstruct() {
     try {
       this.configuration.connectToBroker();
-      messageProducer =
+      this.messageProducer =
           this.configuration.getSession().createProducer(this.configuration.getDestination());
       messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
     } catch (JMSException e) {

@@ -8,11 +8,18 @@ import com.gsdd.activemq.BrokerPublishSubscribe;
 public class ExecutePublishSubscribe {
 
   public static void main(String[] args) {
-    Thread consumer = new Thread(() -> new BasicConsumer(new BrokerPublishSubscribe(),
-        ActiveMQConstants.TIME_BETWEEN_MESSAGES).receiveMessage());
-    Thread producer =
-        new Thread(() -> new BasicProducer(new BrokerPublishSubscribe()).produceMessages());
-    consumer.start();
-    producer.start();
+    Runnable consumer = () -> {
+      BasicConsumer basicConsumer =
+          new BasicConsumer(new BrokerPublishSubscribe(), ActiveMQConstants.TIME_BETWEEN_MESSAGES);
+      basicConsumer.postConstruct();
+      basicConsumer.receiveMessage();
+    };
+    Runnable producer = () -> {
+      BasicProducer basicProducer = new BasicProducer(new BrokerPublishSubscribe());
+      basicProducer.postConstruct();
+      basicProducer.produceMessages();
+    };
+    consumer.run();
+    producer.run();
   }
 }

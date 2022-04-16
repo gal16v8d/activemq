@@ -23,6 +23,7 @@ class BasicConsumerTest {
     MockitoAnnotations.openMocks(this);
     Mockito.doNothing().when(brokerProducerConsumer).connectToBroker();
     basicConsumer = Mockito.spy(new BasicConsumer(brokerProducerConsumer, 0));
+    basicConsumer.postConstruct();
   }
 
   @Test

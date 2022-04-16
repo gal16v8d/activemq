@@ -18,7 +18,6 @@ public abstract class AbstractBrokerConfig {
   private static final String BROKER_SERVER_FMT =
       "tcp://%s:61616?jms.prefetchPolicy.queuePrefetch=1";
 
-  private ActiveMQConnectionFactory connectionFactory;
   private Connection connection;
   private Session session;
   private Destination destination;
@@ -27,7 +26,7 @@ public abstract class AbstractBrokerConfig {
 
   public void connectToBroker() {
     try {
-      connectionFactory = initConnectionFactory();
+      ActiveMQConnectionFactory connectionFactory = initConnectionFactory();
       connection = connectionFactory.createConnection();
       connection.start();
       session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
