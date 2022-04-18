@@ -304,10 +304,9 @@
 				<executions>
 					<execution>
 						<id>spotless-validate</id>
-						<phase>validate</phase>
-							<goals>
-								<goal>apply</goal>
-							</goals>
+						<goals>
+							<goal>apply</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -325,7 +324,6 @@
 				<executions>
 					<execution>
 						<id>checkstyle-validate</id>
-						<phase>validate</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -343,6 +341,7 @@
 				</configuration>
 				<executions>
 					<execution>
+						<id>dependency-check-validate</id>
 						<goals>
 							<goal>check</goal>
 						</goals>
