@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
- 
+
 <!DOCTYPE suppressions PUBLIC
      "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN"
      "https://checkstyle.org/dtds/suppressions_1_0.dtd">
@@ -8,10 +8,10 @@
 	<suppress checks="JavadocPackage" files=".*\.java" />
 	<suppress checks="JavadocVariable" files=".*\.java" />
 	<suppress checks="MissingJavadocMethod" files=".*\.java" />
-	<!-- Suppress until deep check or spotless apply -->
 	<suppress checks="DesignForExtension" files=".*\.java" />
-	<suppress checks="LineLength" files=".*\.java" />
 	<suppress checks="FinalParameters" files=".*\.java" />
-	<!-- False possitive using lombok -->
+	<!-- Suppress conflict between spotless formatting and check -->
+	<suppress checks="LineLength" files=".*\.java" />
+	<!-- False positive using lombok -->
 	<suppress checks="HideUtilityClassConstructor" files=".*\.java" />
 </suppressions>

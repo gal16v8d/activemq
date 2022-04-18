@@ -7,20 +7,23 @@ import com.gsdd.activemq.BrokerProducerConsumer;
 
 public class ExecutePTP {
 
-  public static void main(String[] args) {
-    Runnable consumer = () -> {
-      BasicConsumer basicConsumer =
-          new BasicConsumer(new BrokerProducerConsumer(), ActiveMQConstants.TIME_BETWEEN_MESSAGES);
-      basicConsumer.postConstruct();
-      basicConsumer.receiveMessage();
-    };
-    Runnable producer = () -> {
-      BasicProducer basicProducer = new BasicProducer(new BrokerProducerConsumer());
-      basicProducer.postConstruct();
-      basicProducer.produceMessages();
-    };
-    consumer.run();
-    producer.run();
-  }
-
+    public static void main(String[] args) {
+        Runnable consumer =
+                () -> {
+                    BasicConsumer basicConsumer =
+                            new BasicConsumer(
+                                    new BrokerProducerConsumer(),
+                                    ActiveMQConstants.TIME_BETWEEN_MESSAGES);
+                    basicConsumer.postConstruct();
+                    basicConsumer.receiveMessage();
+                };
+        Runnable producer =
+                () -> {
+                    BasicProducer basicProducer = new BasicProducer(new BrokerProducerConsumer());
+                    basicProducer.postConstruct();
+                    basicProducer.produceMessages();
+                };
+        consumer.run();
+        producer.run();
+    }
 }

@@ -14,26 +14,24 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BasicConsumerTest {
 
-  private BasicConsumer basicConsumer;
-  @Mock
-  private BrokerProducerConsumer brokerProducerConsumer;
+    private BasicConsumer basicConsumer;
+    @Mock private BrokerProducerConsumer brokerProducerConsumer;
 
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-    Mockito.doNothing().when(brokerProducerConsumer).connectToBroker();
-    basicConsumer = Mockito.spy(new BasicConsumer(brokerProducerConsumer, 0));
-    basicConsumer.postConstruct();
-  }
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        Mockito.doNothing().when(brokerProducerConsumer).connectToBroker();
+        basicConsumer = Mockito.spy(new BasicConsumer(brokerProducerConsumer, 0));
+        basicConsumer.postConstruct();
+    }
 
-  @Test
-  void testReceiveMessage(@Mock Session session, @Mock MessageConsumer consumer)
-      throws JMSException {
-    Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
-    Mockito.doReturn(consumer).when(session).createConsumer(Mockito.any());
-    Mockito.doThrow(new JMSException("error")).when(consumer).setMessageListener(Mockito.any());
-    basicConsumer.receiveMessage();
-    Mockito.verify(consumer).setMessageListener(Mockito.any());
-  }
-
+    @Test
+    void testReceiveMessage(@Mock Session session, @Mock MessageConsumer consumer)
+            throws JMSException {
+        Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
+        Mockito.doReturn(consumer).when(session).createConsumer(Mockito.any());
+        Mockito.doThrow(new JMSException("error")).when(consumer).setMessageListener(Mockito.any());
+        basicConsumer.receiveMessage();
+        Mockito.verify(consumer).setMessageListener(Mockito.any());
+    }
 }
