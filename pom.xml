@@ -147,12 +147,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${mvn.surefire.plugin.version}</version>
 				<configuration>
-					<!-- Sets the VM argument line used when unit tests are run. -->
-					<argLine>${surefireArgLine}</argLine>
 					<skipTests>${skip.unit.tests}</skipTests>
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
-						<exclude>**/IT*.java</exclude>
+						<exclude>**/It*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -169,8 +167,6 @@
 							<goal>verify</goal>
 						</goals>
 						<configuration>
-							<!-- Sets the VM argument line used when integration tests are run. -->
-							<argLine>${failsafeArgLine}</argLine>
 							<skipTests>${skip.integration.tests}</skipTests>
 						</configuration>
 					</execution>
@@ -232,7 +228,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.75</minimum>
+											<minimum>0.84</minimum>
 										</limit>
 									</limits>
 								</rule>
