@@ -1,5 +1,12 @@
 package com.gsdd.activemq;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.never;
+
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.Session;
@@ -8,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -37,9 +43,9 @@ class AbstractBrokerConfigTest {
             @Mock Session session)
             throws JMSException {
         mockBrokerConfigs(connectionFactory, connection, session);
-        Mockito.doReturn(null).when(session).createQueue(Mockito.any());
+        willReturn(null).given(session).createQueue(any());
         config.connectToBroker();
-        Mockito.verify(session).createQueue(Mockito.any());
+        then(session).should().createQueue(any());
     }
 
     @Test
@@ -48,11 +54,11 @@ class AbstractBrokerConfigTest {
             @Mock Connection connection,
             @Mock Session session)
             throws JMSException {
-        Mockito.doReturn(DestinationType.TOPIC).when(config).destinationType();
+        willReturn(DestinationType.TOPIC).given(config).destinationType();
         mockBrokerConfigs(connectionFactory, connection, session);
-        Mockito.doReturn(null).when(session).createTopic(Mockito.any());
+        willReturn(null).given(session).createTopic(any());
         config.connectToBroker();
-        Mockito.verify(session).createTopic(Mockito.any());
+        then(session).should().createTopic(any());
     }
 
     @Test
@@ -61,59 +67,59 @@ class AbstractBrokerConfigTest {
             @Mock Connection connection,
             @Mock Session session)
             throws JMSException {
-        Mockito.doReturn(null).when(config).destinationType();
+        willReturn(null).given(config).destinationType();
         mockBrokerConfigs(connectionFactory, connection, session);
         config.connectToBroker();
-        Mockito.verify(session, Mockito.never()).createTopic(Mockito.any());
-        Mockito.verify(session, Mockito.never()).createQueue(Mockito.any());
+        then(session).should(never()).createTopic(any());
+        then(session).should(never()).createQueue(any());
     }
 
     private void mockBrokerConfigs(
             ActiveMQConnectionFactory connectionFactory, Connection connection, Session session)
             throws JMSException {
-        Mockito.doReturn(connectionFactory).when(config).initConnectionFactory();
-        Mockito.doReturn(connection).when(connectionFactory).createConnection();
-        Mockito.doNothing().when(connection).start();
-        Mockito.doReturn(session).when(connection).createSession(false, Session.CLIENT_ACKNOWLEDGE);
+        willReturn(connectionFactory).given(config).initConnectionFactory();
+        willReturn(connection).given(connectionFactory).createConnection();
+        willDoNothing().given(connection).start();
+        willReturn(session).given(connection).createSession(false, Session.CLIENT_ACKNOWLEDGE);
     }
 
     @Test
     void testCloseResources(@Mock Session session, @Mock Connection connection)
             throws JMSException {
-        Mockito.doReturn(session).when(config).getSession();
-        Mockito.doReturn(connection).when(config).getConnection();
-        Mockito.doNothing().when(session).close();
-        Mockito.doNothing().when(connection).close();
+        willReturn(session).given(config).getSession();
+        willReturn(connection).given(config).getConnection();
+        willDoNothing().given(session).close();
+        willDoNothing().given(connection).close();
         config.closeResources();
-        Mockito.verify(session).close();
-        Mockito.verify(connection).close();
+        then(session).should().close();
+        then(connection).should().close();
     }
 
     @Test
     void testCloseResourcesWithErrors(@Mock Session session, @Mock Connection connection)
             throws JMSException {
-        Mockito.doReturn(session).when(config).getSession();
-        Mockito.doReturn(connection).when(config).getConnection();
-        Mockito.doThrow(new JMSException("error")).when(session).close();
-        Mockito.doThrow(new JMSException("error")).when(connection).close();
+        willReturn(session).given(config).getSession();
+        willReturn(connection).given(config).getConnection();
+        willThrow(new JMSException("error")).given(session).close();
+        willThrow(new JMSException("error")).given(connection).close();
         config.closeResources();
-        Mockito.verify(session).close();
-        Mockito.verify(connection).close();
+        then(session).should().close();
+        then(connection).should().close();
     }
 
     @Test
     void testCloseResourcesNoSession(@Mock Connection connection) throws JMSException {
-        Mockito.doReturn(connection).when(config).getConnection();
-        Mockito.doNothing().when(connection).close();
+        willReturn(connection).given(config).getConnection();
+        willDoNothing().given(connection).close();
         config.closeResources();
-        Mockito.verify(connection).close();
+        then(connection).should().close();
     }
 
     @Test
     void testCloseResourcesNoConnection(@Mock Session session) throws JMSException {
-        Mockito.doReturn(session).when(config).getSession();
-        Mockito.doNothing().when(session).close();
+        willReturn(session).given(config).getSession();
+        willDoNothing().given(session).close();
         config.closeResources();
-        Mockito.verify(session).close();
+        then(session).should().close();
     }
 }

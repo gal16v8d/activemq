@@ -1,5 +1,11 @@
 package com.gsdd.activemq;
 
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.never;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
@@ -7,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -24,23 +29,23 @@ class ProcessorMessageTest {
 
     @Test
     void testOnMessageWithTextMessage(@Mock TextMessage txtMsg) throws JMSException {
-        Mockito.doReturn("test").when(txtMsg).getText();
-        Mockito.doNothing().when(txtMsg).acknowledge();
+        willReturn("test").given(txtMsg).getText();
+        willDoNothing().given(txtMsg).acknowledge();
         processorMessage.onMessage(txtMsg);
-        Mockito.verify(txtMsg).acknowledge();
+        then(txtMsg).should().acknowledge();
     }
 
     @Test
     void testOnMessageWithMessage(@Mock Message msg) throws JMSException {
-        Mockito.doNothing().when(msg).acknowledge();
+        willDoNothing().given(msg).acknowledge();
         processorMessage.onMessage(msg);
-        Mockito.verify(msg).acknowledge();
+        then(msg).should().acknowledge();
     }
 
     @Test
     void testOnMessageWithJMSException(@Mock TextMessage txtMsg) throws JMSException {
-        Mockito.doThrow(new JMSException("error")).when(txtMsg).getText();
+        willThrow(new JMSException("error")).given(txtMsg).getText();
         processorMessage.onMessage(txtMsg);
-        Mockito.verify(txtMsg, Mockito.never()).acknowledge();
+        then(txtMsg).should(never()).acknowledge();
     }
 }

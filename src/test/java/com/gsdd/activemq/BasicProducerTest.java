@@ -1,5 +1,13 @@
 package com.gsdd.activemq;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.spy;
+
 import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
@@ -26,33 +34,33 @@ class BasicProducerTest {
     @BeforeEach
     void setUp() throws JMSException {
         MockitoAnnotations.openMocks(this);
-        Mockito.doNothing().when(brokerProducerConsumer).connectToBroker();
-        Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
-        Mockito.doReturn(producer).when(session).createProducer(Mockito.any());
-        Mockito.doNothing().when(producer).setDeliveryMode(DeliveryMode.PERSISTENT);
-        basicProducer = Mockito.spy(new BasicProducer(brokerProducerConsumer));
+        willDoNothing().given(brokerProducerConsumer).connectToBroker();
+        willReturn(session).given(brokerProducerConsumer).getSession();
+        willReturn(producer).given(session).createProducer(any());
+        willDoNothing().given(producer).setDeliveryMode(DeliveryMode.PERSISTENT);
+        basicProducer = spy(new BasicProducer(brokerProducerConsumer));
         basicProducer.postConstruct();
     }
 
     @Test
     void testInit() throws JMSException {
-        Mockito.verify(producer).setDeliveryMode(DeliveryMode.PERSISTENT);
+        then(producer).should().setDeliveryMode(DeliveryMode.PERSISTENT);
     }
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void testSendMessage(boolean withException, @Mock TextMessage txtMsg) throws JMSException {
-        Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
-        Mockito.doReturn(txtMsg).when(session).createTextMessage(Mockito.anyString());
+        willReturn(session).given(brokerProducerConsumer).getSession();
+        willReturn(txtMsg).given(session).createTextMessage(Mockito.anyString());
         if (withException) {
-            Mockito.doThrow(new JMSException("error")).when(producer).send(txtMsg);
+            willThrow(new JMSException("error")).given(producer).send(txtMsg);
         } else {
-            Mockito.doNothing().when(producer).send(txtMsg);
+            willDoNothing().given(producer).send(txtMsg);
         }
-        Mockito.doThrow(new JMSException("error")).when(producer).close();
-        Mockito.doNothing().when(brokerProducerConsumer).closeResources();
+        willThrow(new JMSException("error")).given(producer).close();
+        willDoNothing().given(brokerProducerConsumer).closeResources();
         basicProducer.produceMessages();
-        Mockito.verify(producer, Mockito.atLeastOnce()).send(txtMsg);
-        Mockito.verify(producer, Mockito.atLeastOnce()).close();
+        then(producer).should(atLeastOnce()).send(txtMsg);
+        then(producer).should(atLeastOnce()).close();
     }
 }

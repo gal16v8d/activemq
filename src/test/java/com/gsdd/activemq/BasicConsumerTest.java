@@ -1,5 +1,11 @@
 package com.gsdd.activemq;
 
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.spy;
+
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
@@ -20,18 +26,18 @@ class BasicConsumerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        Mockito.doNothing().when(brokerProducerConsumer).connectToBroker();
-        basicConsumer = Mockito.spy(new BasicConsumer(brokerProducerConsumer, 0));
+        willDoNothing().given(brokerProducerConsumer).connectToBroker();
+        basicConsumer = spy(new BasicConsumer(brokerProducerConsumer, 0));
         basicConsumer.postConstruct();
     }
 
     @Test
     void testReceiveMessage(@Mock Session session, @Mock MessageConsumer consumer)
             throws JMSException {
-        Mockito.doReturn(session).when(brokerProducerConsumer).getSession();
-        Mockito.doReturn(consumer).when(session).createConsumer(Mockito.any());
-        Mockito.doThrow(new JMSException("error")).when(consumer).setMessageListener(Mockito.any());
+        willReturn(session).given(brokerProducerConsumer).getSession();
+        willReturn(consumer).given(session).createConsumer(Mockito.any());
+        willThrow(new JMSException("error")).given(consumer).setMessageListener(Mockito.any());
         basicConsumer.receiveMessage();
-        Mockito.verify(consumer).setMessageListener(Mockito.any());
+        then(consumer).should().setMessageListener(Mockito.any());
     }
 }
