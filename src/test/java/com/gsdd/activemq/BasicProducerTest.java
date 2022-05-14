@@ -26,41 +26,41 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BasicProducerTest {
 
-    private BasicProducer basicProducer;
-    @Mock private BrokerProducerConsumer brokerProducerConsumer;
-    @Mock private Session session;
-    @Mock private MessageProducer producer;
+  private BasicProducer basicProducer;
+  @Mock private BrokerProducerConsumer brokerProducerConsumer;
+  @Mock private Session session;
+  @Mock private MessageProducer producer;
 
-    @BeforeEach
-    void setUp() throws JMSException {
-        MockitoAnnotations.openMocks(this);
-        willDoNothing().given(brokerProducerConsumer).connectToBroker();
-        willReturn(session).given(brokerProducerConsumer).getSession();
-        willReturn(producer).given(session).createProducer(any());
-        willDoNothing().given(producer).setDeliveryMode(DeliveryMode.PERSISTENT);
-        basicProducer = spy(new BasicProducer(brokerProducerConsumer));
-        basicProducer.postConstruct();
-    }
+  @BeforeEach
+  void setUp() throws JMSException {
+    MockitoAnnotations.openMocks(this);
+    willDoNothing().given(brokerProducerConsumer).connectToBroker();
+    willReturn(session).given(brokerProducerConsumer).getSession();
+    willReturn(producer).given(session).createProducer(any());
+    willDoNothing().given(producer).setDeliveryMode(DeliveryMode.PERSISTENT);
+    basicProducer = spy(new BasicProducer(brokerProducerConsumer));
+    basicProducer.postConstruct();
+  }
 
-    @Test
-    void testInit() throws JMSException {
-        then(producer).should().setDeliveryMode(DeliveryMode.PERSISTENT);
-    }
+  @Test
+  void testInit() throws JMSException {
+    then(producer).should().setDeliveryMode(DeliveryMode.PERSISTENT);
+  }
 
-    @ParameterizedTest
-    @ValueSource(booleans = {true, false})
-    void testSendMessage(boolean withException, @Mock TextMessage txtMsg) throws JMSException {
-        willReturn(session).given(brokerProducerConsumer).getSession();
-        willReturn(txtMsg).given(session).createTextMessage(Mockito.anyString());
-        if (withException) {
-            willThrow(new JMSException("error")).given(producer).send(txtMsg);
-        } else {
-            willDoNothing().given(producer).send(txtMsg);
-        }
-        willThrow(new JMSException("error")).given(producer).close();
-        willDoNothing().given(brokerProducerConsumer).closeResources();
-        basicProducer.produceMessages();
-        then(producer).should(atLeastOnce()).send(txtMsg);
-        then(producer).should(atLeastOnce()).close();
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void testSendMessage(boolean withException, @Mock TextMessage txtMsg) throws JMSException {
+    willReturn(session).given(brokerProducerConsumer).getSession();
+    willReturn(txtMsg).given(session).createTextMessage(Mockito.anyString());
+    if (withException) {
+      willThrow(new JMSException("error")).given(producer).send(txtMsg);
+    } else {
+      willDoNothing().given(producer).send(txtMsg);
     }
+    willThrow(new JMSException("error")).given(producer).close();
+    willDoNothing().given(brokerProducerConsumer).closeResources();
+    basicProducer.produceMessages();
+    then(producer).should(atLeastOnce()).send(txtMsg);
+    then(producer).should(atLeastOnce()).close();
+  }
 }

@@ -11,15 +11,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BrokerPublishSubscribeTest {
 
-    @Spy private BrokerPublishSubscribe brokerPublishSubscribe;
+  @Spy private BrokerPublishSubscribe brokerPublishSubscribe;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+  @BeforeEach
+  void setUp() {
+    MockitoAnnotations.openMocks(this);
+  }
 
-    @Test
-    void testDestinationType() {
-        Assertions.assertEquals(DestinationType.TOPIC, brokerPublishSubscribe.destinationType());
-    }
+  @Test
+  void testDestinationType() {
+    Assertions.assertEquals(DestinationType.TOPIC, brokerPublishSubscribe.destinationType());
+  }
 }
