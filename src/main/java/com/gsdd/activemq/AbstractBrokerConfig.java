@@ -37,9 +37,8 @@ public abstract class AbstractBrokerConfig {
   }
 
   protected ActiveMQConnectionFactory initConnectionFactory() {
-    ActiveMQConnectionFactory factory =
-        new ActiveMQConnectionFactory(
-            String.format(BROKER_SERVER_FMT, DockerEnvLoader.getDockerServiceIp()));
+    ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(
+        String.format(BROKER_SERVER_FMT, DockerEnvLoader.getDockerServiceIp()));
     factory.setTrustedPackages(Arrays.asList(TRUSTED_PACKAGES));
     return factory;
   }

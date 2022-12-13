@@ -11,7 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BrokerProducerConsumerTest {
 
-  @Spy private BrokerProducerConsumer brokerProducerConsumer;
+  @Spy
+  private BrokerProducerConsumer brokerProducerConsumer;
 
   @BeforeEach
   void setUp() {

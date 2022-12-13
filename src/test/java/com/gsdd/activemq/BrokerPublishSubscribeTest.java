@@ -11,7 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BrokerPublishSubscribeTest {
 
-  @Spy private BrokerPublishSubscribe brokerPublishSubscribe;
+  @Spy
+  private BrokerPublishSubscribe brokerPublishSubscribe;
 
   @BeforeEach
   void setUp() {

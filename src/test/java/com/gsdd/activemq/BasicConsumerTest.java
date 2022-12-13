@@ -21,7 +21,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class BasicConsumerTest {
 
   private BasicConsumer basicConsumer;
-  @Mock private BrokerProducerConsumer brokerProducerConsumer;
+  @Mock
+  private BrokerProducerConsumer brokerProducerConsumer;
 
   @BeforeEach
   void setUp() {

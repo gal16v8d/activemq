@@ -27,9 +27,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class BasicProducerTest {
 
   private BasicProducer basicProducer;
-  @Mock private BrokerProducerConsumer brokerProducerConsumer;
-  @Mock private Session session;
-  @Mock private MessageProducer producer;
+  @Mock
+  private BrokerProducerConsumer brokerProducerConsumer;
+  @Mock
+  private Session session;
+  @Mock
+  private MessageProducer producer;
 
   @BeforeEach
   void setUp() throws JMSException {

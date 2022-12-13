@@ -16,8 +16,7 @@ public class BasicConsumer {
 
   public void receiveMessage() {
     try {
-      configuration
-          .getSession()
+      configuration.getSession()
           .createConsumer(configuration.getDestination())
           .setMessageListener(new ProcessorMessage(timeBetweenMessages));
     } catch (Exception e) {

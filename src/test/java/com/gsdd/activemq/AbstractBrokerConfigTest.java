@@ -29,7 +29,8 @@ class AbstractBrokerConfigTest {
     }
   }
 
-  @Spy private BrokerConfig config;
+  @Spy
+  private BrokerConfig config;
 
   @BeforeEach
   void setUp() {
@@ -37,11 +38,8 @@ class AbstractBrokerConfigTest {
   }
 
   @Test
-  void testConnectToBroker(
-      @Mock ActiveMQConnectionFactory connectionFactory,
-      @Mock Connection connection,
-      @Mock Session session)
-      throws JMSException {
+  void testConnectToBroker(@Mock ActiveMQConnectionFactory connectionFactory,
+      @Mock Connection connection, @Mock Session session) throws JMSException {
     mockBrokerConfigs(connectionFactory, connection, session);
     willReturn(null).given(session).createQueue(any());
     config.connectToBroker();
@@ -49,11 +47,8 @@ class AbstractBrokerConfigTest {
   }
 
   @Test
-  void testConnectToBrokerTopic(
-      @Mock ActiveMQConnectionFactory connectionFactory,
-      @Mock Connection connection,
-      @Mock Session session)
-      throws JMSException {
+  void testConnectToBrokerTopic(@Mock ActiveMQConnectionFactory connectionFactory,
+      @Mock Connection connection, @Mock Session session) throws JMSException {
     willReturn(DestinationType.TOPIC).given(config).destinationType();
     mockBrokerConfigs(connectionFactory, connection, session);
     willReturn(null).given(session).createTopic(any());
@@ -62,11 +57,8 @@ class AbstractBrokerConfigTest {
   }
 
   @Test
-  void testConnectToBrokerBadDestination(
-      @Mock ActiveMQConnectionFactory connectionFactory,
-      @Mock Connection connection,
-      @Mock Session session)
-      throws JMSException {
+  void testConnectToBrokerBadDestination(@Mock ActiveMQConnectionFactory connectionFactory,
+      @Mock Connection connection, @Mock Session session) throws JMSException {
     willReturn(null).given(config).destinationType();
     mockBrokerConfigs(connectionFactory, connection, session);
     config.connectToBroker();
@@ -74,9 +66,8 @@ class AbstractBrokerConfigTest {
     then(session).should(never()).createQueue(any());
   }
 
-  private void mockBrokerConfigs(
-      ActiveMQConnectionFactory connectionFactory, Connection connection, Session session)
-      throws JMSException {
+  private void mockBrokerConfigs(ActiveMQConnectionFactory connectionFactory, Connection connection,
+      Session session) throws JMSException {
     willReturn(connectionFactory).given(config).initConnectionFactory();
     willReturn(connection).given(connectionFactory).createConnection();
     willDoNothing().given(connection).start();

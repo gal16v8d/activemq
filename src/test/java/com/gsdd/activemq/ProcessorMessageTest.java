@@ -20,7 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class ProcessorMessageTest {
 
-  @Spy private ProcessorMessage processorMessage = new ProcessorMessage(0);
+  @Spy
+  private ProcessorMessage processorMessage = new ProcessorMessage(0);
 
   @BeforeEach
   void setUp() {
