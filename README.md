@@ -12,12 +12,13 @@ For all the samples you will need:
 
 For get started with the docker image execute:
 
-docker pull rmohr/activemq
-docker run -p 61616:61616 -p 8161:8161 rmohr/activemq
+- docker pull rmohr/activemq
+- docker run -p 61616:61616 -p 8161:8161 rmohr/activemq
 
-After run activemq docker image, you can run the sample
-For ** Publish - Subscribe **
+After run activemq docker image, you can run the sample:
+
+### Publish - Subscribe 
 Run ExecutePublishSubscribe.java
 
-For **Point to Point **
+### Point to Point
 Run ExecutePTP.java
