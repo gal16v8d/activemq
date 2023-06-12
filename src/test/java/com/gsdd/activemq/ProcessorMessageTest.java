@@ -9,11 +9,9 @@ import static org.mockito.Mockito.never;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -22,11 +20,6 @@ class ProcessorMessageTest {
 
   @Spy
   private ProcessorMessage processorMessage = new ProcessorMessage(0);
-
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-  }
 
   @Test
   void testOnMessageWithTextMessage(@Mock TextMessage txtMsg) throws JMSException {

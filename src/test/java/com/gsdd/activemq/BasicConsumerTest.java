@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +25,6 @@ class BasicConsumerTest {
 
   @BeforeEach
   void setUp() {
-    MockitoAnnotations.openMocks(this);
     willDoNothing().given(brokerProducerConsumer).connectToBroker();
     basicConsumer = spy(new BasicConsumer(brokerProducerConsumer, 0));
     basicConsumer.postConstruct();

@@ -1,5 +1,6 @@
 package com.gsdd.activemq;
 
+import java.util.stream.IntStream;
 import javax.jms.DeliveryMode;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
@@ -27,9 +28,8 @@ public class BasicProducer {
   }
 
   public void produceMessages() {
-    for (int i = 0; i < PACKAGES_TO_SEND; i++) {
-      sendMessage("package #: " + i);
-    }
+    IntStream.rangeClosed(0, PACKAGES_TO_SEND)
+        .forEach(val -> sendMessage("package # %d".formatted(val)));
     closeProducer();
     getConfiguration().closeResources();
   }

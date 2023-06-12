@@ -20,7 +20,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,7 +35,6 @@ class BasicProducerTest {
 
   @BeforeEach
   void setUp() throws JMSException {
-    MockitoAnnotations.openMocks(this);
     willDoNothing().given(brokerProducerConsumer).connectToBroker();
     willReturn(session).given(brokerProducerConsumer).getSession();
     willReturn(producer).given(session).createProducer(any());

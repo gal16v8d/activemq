@@ -11,11 +11,9 @@ import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,10 +29,15 @@ class AbstractBrokerConfigTest {
 
   @Spy
   private BrokerConfig config;
-
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
+  
+  @Test
+  void testConnectToBrokerCanNotStartConnection(@Mock ActiveMQConnectionFactory connectionFactory,
+      @Mock Connection connection, @Mock Session session) throws JMSException {
+    willReturn(connectionFactory).given(config).initConnectionFactory();
+    willReturn(connection).given(connectionFactory).createConnection();
+    willThrow(new RuntimeException("Error")).given(connection).start();
+    config.connectToBroker();
+    then(session).should(never()).createQueue(any());
   }
 
   @Test
