@@ -25,7 +25,7 @@
 		<!-- If true skips IT test execution -->
 		<skip.integration.tests>false</skip.integration.tests>
 
-		<activemq.version>5.18.1</activemq.version>
+		<activemq.version>5.18.3</activemq.version>
 		<docker-config-util.version>2.0.4</docker-config-util.version>
 	</properties>
 
