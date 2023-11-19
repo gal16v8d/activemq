@@ -6,7 +6,7 @@ Publish - Subscribe (Topic)
 
 For all the samples you will need:
 
-* Java 17
+* Java 21
 * Maven
 * Docker
 
