@@ -1,9 +1,8 @@
 package com.gsdd.activemq;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class ActiveMQConstants {
 
   public static final int TIME_BETWEEN_MESSAGES = 200;

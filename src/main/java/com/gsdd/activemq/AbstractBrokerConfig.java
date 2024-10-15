@@ -1,11 +1,11 @@
 package com.gsdd.activemq;
 
 import com.gsdd.docker.config.util.DockerEnvLoader;
-import java.util.Arrays;
-import javax.jms.Connection;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import javax.jms.Session;
+import jakarta.jms.Connection;
+import jakarta.jms.Destination;
+import jakarta.jms.JMSException;
+import jakarta.jms.Session;
+import java.util.List;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -39,7 +39,7 @@ public abstract class AbstractBrokerConfig {
   protected ActiveMQConnectionFactory initConnectionFactory() {
     ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(
         String.format(BROKER_SERVER_FMT, DockerEnvLoader.getDockerServiceIp()));
-    factory.setTrustedPackages(Arrays.asList(TRUSTED_PACKAGES));
+    factory.setTrustedPackages(List.of(TRUSTED_PACKAGES));
     return factory;
   }
 

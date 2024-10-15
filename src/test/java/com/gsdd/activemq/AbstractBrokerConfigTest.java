@@ -7,9 +7,9 @@ import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.never;
 
-import javax.jms.Connection;
-import javax.jms.JMSException;
-import javax.jms.Session;
+import jakarta.jms.Connection;
+import jakarta.jms.JMSException;
+import jakarta.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +29,7 @@ class AbstractBrokerConfigTest {
 
   @Spy
   private BrokerConfig config;
-  
+
   @Test
   void testConnectToBrokerCanNotStartConnection(@Mock ActiveMQConnectionFactory connectionFactory,
       @Mock Connection connection, @Mock Session session) throws JMSException {
