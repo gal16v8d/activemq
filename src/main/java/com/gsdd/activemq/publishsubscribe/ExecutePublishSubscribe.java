@@ -4,6 +4,7 @@ import com.gsdd.activemq.ActiveMQConstants;
 import com.gsdd.activemq.BasicConsumer;
 import com.gsdd.activemq.BasicProducer;
 import com.gsdd.activemq.BrokerPublishSubscribe;
+import java.util.concurrent.Executors;
 
 public class ExecutePublishSubscribe {
 
@@ -19,7 +20,9 @@ public class ExecutePublishSubscribe {
       basicProducer.postConstruct();
       basicProducer.produceMessages();
     };
-    consumer.run();
-    producer.run();
+    try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+      executor.execute(consumer);
+      executor.execute(producer);
+    }
   }
 }
